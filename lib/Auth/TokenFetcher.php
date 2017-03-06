@@ -30,6 +30,7 @@ class TokenFetcher
      */
     public function __construct(Configuration $configuration = null, GuzzleClient $httpClient = null)
     {
+        // @codeCoverageIgnoreStart
         if ($configuration === null) {
             $configuration = Configuration::getDefaultConfiguration();
         }
@@ -37,6 +38,7 @@ class TokenFetcher
         if ($httpClient === null) {
             $httpClient = new GuzzleClient();
         }
+        // @codeCoverageIgnoreEnd
 
         $this->configuration = $configuration;
         $this->httpClient = $httpClient;

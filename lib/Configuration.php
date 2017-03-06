@@ -48,9 +48,11 @@ class Configuration
      */
     public static function getDefaultConfiguration()
     {
+        // @codeCoverageIgnoreStart
         if (self::$defaultConfiguration === null) {
             self::$defaultConfiguration = new Configuration();
         }
+        // @codeCoverageIgnoreEnd
 
         return self::$defaultConfiguration;
     }

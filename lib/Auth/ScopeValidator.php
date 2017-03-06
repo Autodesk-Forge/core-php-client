@@ -30,9 +30,11 @@ class ScopeValidator
      */
     public function __construct(array $scopes = null)
     {
+        // @codeCoverageIgnoreStart
         if (is_null($scopes)) {
             $scopes = self::SCOPES;
         }
+        // @codeCoverageIgnoreEnd
 
         $this->scopes = $scopes;
     }

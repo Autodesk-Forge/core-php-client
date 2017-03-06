@@ -2,6 +2,7 @@
 
 namespace Autodesk\Core\Auth;
 
+use Autodesk\Core\Exception\InvalidScopeException;
 use Autodesk\Core\Exception\LogicException;
 use Autodesk\Core\Exception\RuntimeException;
 
@@ -63,9 +64,25 @@ abstract class AbstractOAuth2
     /**
      * @param $token
      */
-    public function setToken($token)
+    public function setAccessToken($token)
     {
         $this->token = $token;
+    }
+
+    /**
+     * @return int
+     */
+    public function getExpiry()
+    {
+        return $this->expiry;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAccessToken()
+    {
+        return $this->token !== null;
     }
 
     /**
@@ -74,12 +91,12 @@ abstract class AbstractOAuth2
      */
     public function addScope($name)
     {
-        if ($this->scopeAlreadyExists($name)) {
+        if ($this->isScopeAlreadyExists($name)) {
             return;
         }
 
         if ($this->scopeValidator->isScopeInvalid($name)) {
-            throw new LogicException("Cannot add invalid scope '{$name}'");
+            throw new InvalidScopeException($name);
         }
 
         $this->scopes[] = $name;
@@ -96,28 +113,12 @@ abstract class AbstractOAuth2
     }
 
     /**
-     * @return int
-     */
-    public function getExpiry()
-    {
-        return $this->expiry;
-    }
-
-    /**
      * @param array $scopes
      */
     public function setScopes(array $scopes)
     {
         $this->scopes = [];
         $this->addScopes($scopes);
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasAccessToken()
-    {
-        return $this->token !== null;
     }
 
     /**
@@ -157,7 +158,7 @@ abstract class AbstractOAuth2
      * @param $name
      * @return bool
      */
-    private function scopeAlreadyExists($name)
+    private function isScopeAlreadyExists($name)
     {
         return in_array($name, $this->scopes);
     }

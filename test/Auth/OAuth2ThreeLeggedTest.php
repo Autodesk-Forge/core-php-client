@@ -37,10 +37,12 @@ class OAuth2ThreeLeggedTest extends TestCase
     public function setUp()
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)
+            ->disableOriginalConstructor()
             ->setMethods(['getHost', 'getClientId', 'getRedirectUrl'])
             ->getMock();
 
         $this->scopeValidator = $this->getMockBuilder(ScopeValidator::class)
+            ->disableOriginalConstructor()
             ->setMethods(['isScopeInvalid'])
             ->getMock();
 
@@ -90,6 +92,8 @@ class OAuth2ThreeLeggedTest extends TestCase
         $authorizationCode = 'someAuthCode';
         $redirectUri = 'http://host.com/callback.php';
         $refreshToken = 'YYYY';
+        $accessToken = 'XXXX';
+        $expiry = 100;
 
         $this->configuration
             ->expects($this->once())
@@ -105,15 +109,20 @@ class OAuth2ThreeLeggedTest extends TestCase
             ->expects($this->once())
             ->method('fetch')
             ->with('authentication/v1/gettoken', 'authorization_code', [], $additionalParams)
-            ->willReturn(['access_token' => 'XXXX', 'expires_in' => 100, 'refresh_token' => $refreshToken]);
+            ->willReturn(['access_token' => $accessToken, 'expires_in' => $expiry, 'refresh_token' => $refreshToken]);
 
         $this->auth->fetchToken($authorizationCode);
+
         $this->assertEquals($refreshToken, $this->auth->getRefreshToken());
+        $this->assertEquals($accessToken, $this->auth->getAccessToken());
+        $this->assertEquals($expiry, $this->auth->getExpiry());
     }
 
     public function test_refresh_token()
     {
-        $refreshToken = 'someAuthCode';
+        $refreshToken = 'YYYY';
+        $accessToken = 'XXXX';
+        $expiry = 100;
 
         $additionalParams = [
             'refresh_token' => $refreshToken,
@@ -123,9 +132,13 @@ class OAuth2ThreeLeggedTest extends TestCase
             ->expects($this->once())
             ->method('fetch')
             ->with('authentication/v1/refreshtoken', 'refresh_token', [], $additionalParams)
-            ->willReturn(['access_token' => 'XXXX', 'expires_in' => 100, 'refresh_token' => 'YYYYY']);
+            ->willReturn(['access_token' => 'XXXX', 'expires_in' => 100, 'refresh_token' => $refreshToken]);
 
         $this->auth->refreshToken($refreshToken);
+
+        $this->assertEquals($refreshToken, $this->auth->getRefreshToken());
+        $this->assertEquals($accessToken, $this->auth->getAccessToken());
+        $this->assertEquals($expiry, $this->auth->getExpiry());
 
     }
 
