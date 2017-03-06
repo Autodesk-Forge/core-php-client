@@ -6,6 +6,7 @@ use Autodesk\Core\Configuration;
 use Autodesk\Core\Exception\LogicException;
 use Autodesk\Core\Exception\RuntimeException;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\ClientException;
 
 class TokenFetcher
 {
@@ -57,7 +58,7 @@ class TokenFetcher
     {
         $this->validateScopesNotEmpty($scopes);
 
-        $body = array_merge([
+        $formParams = array_merge([
             'client_id'     => $this->configuration->getClientId(),
             'client_secret' => $this->configuration->getClientSecret(),
             'grant_type'    => $grantType,
@@ -66,12 +67,9 @@ class TokenFetcher
 
         $url = "{$this->configuration->getHost()}/{$url}";
 
-        $response = $this->httpClient->post($url, [
-            'headers'     => self::HEADERS,
-            'form_params' => $body,
-        ]);
+        $response = $this->makeRequest($url, $formParams);
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response, true);
     }
 
     /**
@@ -83,5 +81,29 @@ class TokenFetcher
         if (count($scopes) === 0) {
             throw new LogicException('Cannot fetch token when no scopes where defined');
         }
+    }
+
+    /**
+     * @param $url
+     * @param $body
+     * @return string
+     * @throws RuntimeException
+     */
+    private function makeRequest($url, $body)
+    {
+        try {
+            $response = $this->httpClient->post($url, [
+                'headers'     => self::HEADERS,
+                'form_params' => $body,
+            ]);
+        } catch (ClientException $e) {
+            $response = json_decode($e->getResponse()->getBody(), true);
+
+            throw new RuntimeException($response['developerMessage']);
+        } catch (\Exception $e) {
+            throw new RuntimeException('Failed to fetch token');
+        }
+
+        return (string) $response->getBody();
     }
 }

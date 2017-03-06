@@ -4,7 +4,10 @@ namespace Autodesk\Core;
 
 use Autodesk\Core\Auth\TokenFetcher;
 use Autodesk\Core\Exception\LogicException;
+use Autodesk\Core\Exception\RuntimeException;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -90,5 +93,41 @@ class TokenFetcherTest extends TestCase
 
         $result = $this->tokenFetcher->fetch($path, $grantType, $scopes, $additionalParams);
         $this->assertEquals($response, $result);
+    }
+
+    public function test_general_exception_handling_from_guzzle_client()
+    {
+        $this->httpClient
+            ->expects($this->once())
+            ->method('post')
+            ->willReturnCallback(function () {
+                throw new \Exception('Some exception because guzzle failed');
+            });
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Failed to fetch token');
+
+        $this->tokenFetcher->fetch('somepage.php', 'grantType', ['a'], []);
+    }
+
+    public function test_error_response_handling()
+    {
+        $this->httpClient
+            ->expects($this->once())
+            ->method('post')
+            ->willReturnCallback(function () {
+                $clientException = new ClientException(
+                    'Some error with response code of 400',
+                    new Request('A', 'B'),
+                    new Response(400, [], '{"developerMessage": "Error in the content of the request"}')
+                );
+
+                throw $clientException;
+            });
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Error in the content of the request');
+
+        $this->tokenFetcher->fetch('somepage.php', 'grantType', ['a'], []);
     }
 }
