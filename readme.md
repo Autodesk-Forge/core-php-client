@@ -55,7 +55,7 @@ Autodesk\Core\Configuration::getDefaultConfiguration()
     ->setClientId('XXXXXX')
     ->setClientSecret('XXXXXX');
 
-$twoLeggedAuth = new Autodesk\Core\Auth\OAuth2TwoLegged();
+$twoLeggedAuth = new Autodesk\Core\Auth\OAuth2\TwoLeggedClient();
 $twoLeggedAuth->setScopes(['bucket:read']);
 
 /**
@@ -93,7 +93,7 @@ Autodesk\Core\Configuration::getDefaultConfiguration()
     ->setClientSecret('XXXXXX')
     ->setRedirectUrl("http://{$_SERVER['HTTP_HOST']}/callback.php");
 
-$threeLeggedAuth = new Autodesk\Core\Auth\OAuth2ThreeLegged();
+$threeLeggedAuth = new Autodesk\Core\Auth\OAuth2\ThreeLeggedClient();
 $threeLeggedAuth->addScope('code:all');
 
 if (isset($_SESSION['isAuthenticated']) && $_SESSION['expiry'] > time()) {
@@ -134,7 +134,7 @@ Autodesk\Core\Configuration::getDefaultConfiguration()
     ->setClientSecret('XXXXXX')
     ->setRedirectUrl("http://{$_SERVER['HTTP_HOST']}/callback.php");
 
-$threeLeggedAuth = new Autodesk\Core\Auth\OAuth2ThreeLegged();
+$threeLeggedAuth = new Autodesk\Core\Auth\OAuth2\ThreeLeggedClient();
 $threeLeggedAuth->addScopes(['data:read']);
 
 if (isset($_GET['code']) && $_GET['code']) {

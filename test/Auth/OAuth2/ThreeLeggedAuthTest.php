@@ -2,14 +2,14 @@
 
 namespace Autodesk\Core;
 
-use Autodesk\Core\Auth\OAuth2ThreeLegged;
+use Autodesk\Core\Auth\OAuth2\ThreeLeggedAuth;
 use Autodesk\Core\Auth\ScopeValidator;
 use Autodesk\Core\Auth\TokenFetcher;
 use Autodesk\Core\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
-class OAuth2ThreeLeggedTest extends TestCase
+class ThreeLeggedAuthTest extends TestCase
 {
     /**
      * @var Configuration|PHPUnit_Framework_MockObject_MockObject
@@ -27,7 +27,7 @@ class OAuth2ThreeLeggedTest extends TestCase
     private $scopeValidator;
 
     /**
-     * @var OAuth2ThreeLegged
+     * @var ThreeLeggedAuth
      */
     private $auth;
 
@@ -51,7 +51,7 @@ class OAuth2ThreeLeggedTest extends TestCase
             ->setMethods(['fetch'])
             ->getMock();
 
-        $this->auth = new OAuth2ThreeLegged($this->configuration, $this->tokenFetcher, $this->scopeValidator);
+        $this->auth = new ThreeLeggedAuth($this->configuration, $this->tokenFetcher, $this->scopeValidator);
     }
 
     public function test_create_auth_url()

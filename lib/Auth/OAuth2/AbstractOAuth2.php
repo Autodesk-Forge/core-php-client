@@ -1,7 +1,9 @@
 <?php
 
-namespace Autodesk\Core\Auth;
+namespace Autodesk\Core\Auth\OAuth2;
 
+use Autodesk\Core\Auth\ScopeValidator;
+use Autodesk\Core\Auth\TokenFetcher;
 use Autodesk\Core\Exception\InvalidScopeException;
 use Autodesk\Core\Exception\LogicException;
 use Autodesk\Core\Exception\RuntimeException;

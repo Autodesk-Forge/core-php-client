@@ -2,7 +2,7 @@
 
 namespace Autodesk\Core;
 
-use Autodesk\Core\Auth\AbstractOAuth2;
+use Autodesk\Core\Auth\OAuth2\AbstractOAuth2;
 use Autodesk\Core\Auth\ScopeValidator;
 use Autodesk\Core\Auth\TokenFetcher;
 use Autodesk\Core\Exception\InvalidScopeException;

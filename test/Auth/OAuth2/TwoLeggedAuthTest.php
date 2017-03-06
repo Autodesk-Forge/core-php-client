@@ -2,14 +2,14 @@
 
 namespace Autodesk\Core;
 
-use Autodesk\Core\Auth\OAuth2TwoLegged;
+use Autodesk\Core\Auth\OAuth2\TwoLeggedAuth;
 use Autodesk\Core\Auth\ScopeValidator;
 use Autodesk\Core\Auth\TokenFetcher;
 use Autodesk\Core\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
-class OAuth2TwoLeggedTest extends TestCase
+class TwoLeggedAuthTest extends TestCase
 {
     /**
      * @var TokenFetcher|PHPUnit_Framework_MockObject_MockObject
@@ -22,7 +22,7 @@ class OAuth2TwoLeggedTest extends TestCase
     private $scopeValidator;
 
     /**
-     * @var OAuth2TwoLegged
+     * @var TwoLeggedAuth
      */
     private $auth;
 
@@ -40,7 +40,7 @@ class OAuth2TwoLeggedTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->auth = new OAuth2TwoLegged($this->tokenFetcher, $this->scopeValidator);
+        $this->auth = new TwoLeggedAuth($this->tokenFetcher, $this->scopeValidator);
     }
 
     public function test_fetch_token()

@@ -1,10 +1,10 @@
 <?php
 
-namespace Autodesk\Core\Auth;
+namespace Autodesk\Core\Auth\OAuth2;
 
 use Autodesk\Core\Exception\RuntimeException;
 
-class OAuth2TwoLegged extends AbstractOAuth2
+class TwoLeggedAuth extends AbstractOAuth2
 {
     /**
      * Returns application token
