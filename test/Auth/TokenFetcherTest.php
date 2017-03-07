@@ -14,6 +14,11 @@ use PHPUnit_Framework_MockObject_MockObject;
 
 class TokenFetcherTest extends TestCase
 {
+    const SDK_TYPE = 'PHP';
+    const SDK_USAGE = 'internal';
+    const SDK_VERSION = '1.0';
+    const SDK_TIMESTAMP = 1488883023;
+
     /**
      * @var Configuration|PHPUnit_Framework_MockObject_MockObject
      */
@@ -41,7 +46,17 @@ class TokenFetcherTest extends TestCase
             ->setMethods(['post'])
             ->getMock();
 
-        $this->tokenFetcher = new TokenFetcher($this->configuration, $this->httpClient);
+        $packageConfiguration = [
+            'usage'   => self::SDK_USAGE,
+            'version' => self::SDK_VERSION,
+        ];
+
+        $this->tokenFetcher = new TokenFetcher(
+            $this->configuration,
+            $this->httpClient,
+            $packageConfiguration,
+            self::SDK_TIMESTAMP
+        );
     }
 
     public function test_exception_is_thrown_when_no_scopes_defined()
@@ -67,6 +82,10 @@ class TokenFetcherTest extends TestCase
         $options = [
             'headers'     => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
+                'x-sdk-type' => self::SDK_TYPE,
+                'x-sdk-usage' => self::SDK_USAGE,
+                'x-sdk-version' => self::SDK_VERSION,
+                'x-sdk-sent-timestamp' => self::SDK_TIMESTAMP,
             ],
             'form_params' => [
                 'client_id'           => $this->configuration->getClientId(),
@@ -93,21 +112,6 @@ class TokenFetcherTest extends TestCase
 
         $result = $this->tokenFetcher->fetch($path, $grantType, $scopes, $additionalParams);
         $this->assertEquals($response, $result);
-    }
-
-    public function test_general_exception_handling_from_guzzle_client()
-    {
-        $this->httpClient
-            ->expects($this->once())
-            ->method('post')
-            ->willReturnCallback(function () {
-                throw new \Exception('Some exception because guzzle failed');
-            });
-
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Failed to fetch token');
-
-        $this->tokenFetcher->fetch('somepage.php', 'grantType', ['a'], []);
     }
 
     public function test_error_response_handling()

@@ -12,6 +12,7 @@ class TokenFetcher
 {
     const HEADERS = [
         'Content-Type' => 'application/x-www-form-urlencoded',
+        'x-sdk-type'   => 'PHP',
     ];
 
     /**
@@ -25,12 +26,28 @@ class TokenFetcher
     private $httpClient;
 
     /**
+     * @var array
+     */
+    private $packageConfiguration;
+
+    /**
+     * @var null
+     */
+    private $forceTimestamp;
+
+    /**
      * TokenFetcher constructor.
      * @param Configuration|null $configuration
      * @param GuzzleClient|null $httpClient
+     * @param array $packageConfiguration
+     * @param null $forceTimestamp
      */
-    public function __construct(Configuration $configuration = null, GuzzleClient $httpClient = null)
-    {
+    public function __construct(
+        Configuration $configuration = null,
+        GuzzleClient $httpClient = null,
+        array $packageConfiguration = null,
+        $forceTimestamp = null
+    ) {
         // @codeCoverageIgnoreStart
         if ($configuration === null) {
             $configuration = Configuration::getDefaultConfiguration();
@@ -39,10 +56,16 @@ class TokenFetcher
         if ($httpClient === null) {
             $httpClient = new GuzzleClient();
         }
+
+        if ($packageConfiguration === null) {
+            $packageConfiguration = require(dirname(__FILE__) . '/../../config.php');
+        }
         // @codeCoverageIgnoreEnd
 
         $this->configuration = $configuration;
         $this->httpClient = $httpClient;
+        $this->packageConfiguration = $packageConfiguration;
+        $this->forceTimestamp = $forceTimestamp;
     }
 
     /**
@@ -93,17 +116,27 @@ class TokenFetcher
     {
         try {
             $response = $this->httpClient->post($url, [
-                'headers'     => self::HEADERS,
+                'headers'     => $this->getHeaders(),
                 'form_params' => $body,
             ]);
         } catch (ClientException $e) {
             $response = json_decode($e->getResponse()->getBody(), true);
 
             throw new RuntimeException($response['developerMessage']);
-        } catch (\Exception $e) {
-            throw new RuntimeException('Failed to fetch token');
         }
 
-        return (string) $response->getBody();
+        return (string)$response->getBody();
+    }
+
+    /**
+     * @return array
+     */
+    private function getHeaders()
+    {
+        return array_merge(self::HEADERS, [
+            'x-sdk-usage'          => $this->packageConfiguration['usage'],
+            'x-sdk-version'        => $this->packageConfiguration['version'],
+            'x-sdk-sent-timestamp' => ($this->forceTimestamp !== null) ? $this->forceTimestamp : time(),
+        ]);
     }
 }
