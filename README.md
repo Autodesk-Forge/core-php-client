@@ -16,7 +16,7 @@ To install the bindings via [Composer](http://getcomposer.org/), add the followi
     }
   ],
   "require": {
-    "autodesk/core": "*@dev"
+    "autodesk-forge/core": "*@dev"
   }
 }
 ```
