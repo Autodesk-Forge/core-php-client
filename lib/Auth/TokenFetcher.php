@@ -12,7 +12,7 @@ class TokenFetcher
 {
     const HEADERS = [
         'Content-Type' => 'application/x-www-form-urlencoded',
-        'x-sdk-type'   => 'PHP',
+        'User-Agent'   => 'AutodeskForge/{version}/php',
     ];
 
     /**
@@ -31,22 +31,15 @@ class TokenFetcher
     private $packageConfiguration;
 
     /**
-     * @var null
-     */
-    private $forceTimestamp;
-
-    /**
      * TokenFetcher constructor.
      * @param Configuration|null $configuration
      * @param GuzzleClient|null $httpClient
      * @param array $packageConfiguration
-     * @param null $forceTimestamp
      */
     public function __construct(
         Configuration $configuration = null,
         GuzzleClient $httpClient = null,
-        array $packageConfiguration = null,
-        $forceTimestamp = null
+        array $packageConfiguration = null
     ) {
         // @codeCoverageIgnoreStart
         if ($configuration === null) {
@@ -65,7 +58,6 @@ class TokenFetcher
         $this->configuration = $configuration;
         $this->httpClient = $httpClient;
         $this->packageConfiguration = $packageConfiguration;
-        $this->forceTimestamp = $forceTimestamp;
     }
 
     /**
@@ -133,10 +125,10 @@ class TokenFetcher
      */
     private function getHeaders()
     {
-        return array_merge(self::HEADERS, [
-            'x-sdk-usage'          => $this->packageConfiguration['usage'],
-            'x-sdk-version'        => $this->packageConfiguration['version'],
-            'x-sdk-sent-timestamp' => ($this->forceTimestamp !== null) ? $this->forceTimestamp : time(),
-        ]);
+        $headers = self::HEADERS;
+
+        $headers['User-Agent'] = str_replace('{version}', $this->packageConfiguration['version'], $headers['User-Agent']);
+
+        return $headers;
     }
 }
