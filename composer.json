@@ -6,7 +6,7 @@
         "sdk",
         "api"
     ],
-    "homepage": "https://git.autodesk.com/Forge-SDKs/forge-auth-php-client",
+    "homepage": "https://git.autodesk.com/Forge-SDKs/php-core-sdk",
     "license": "Apache 2.0",
     "authors": [
         {
