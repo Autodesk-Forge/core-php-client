@@ -5,14 +5,16 @@ namespace Autodesk\Core\Auth;
 use Autodesk\Core\Configuration;
 use Autodesk\Core\Exception\LogicException;
 use Autodesk\Core\Exception\RuntimeException;
+use Autodesk\Core\VersionDetector;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
 
 class TokenFetcher
 {
+    const USER_AGENT_PATTERN = 'AutodeskForge/{version}/php';
+
     const HEADERS = [
         'Content-Type' => 'application/x-www-form-urlencoded',
-        'User-Agent'   => 'AutodeskForge/{version}/php',
     ];
 
     /**
@@ -26,20 +28,20 @@ class TokenFetcher
     private $httpClient;
 
     /**
-     * @var array
+     * @var VersionDetector
      */
-    private $packageConfiguration;
+    private $versionDetector;
 
     /**
      * TokenFetcher constructor.
      * @param Configuration|null $configuration
      * @param GuzzleClient|null $httpClient
-     * @param array $packageConfiguration
+     * @param VersionDetector|null $versionDetector
      */
     public function __construct(
         Configuration $configuration = null,
         GuzzleClient $httpClient = null,
-        array $packageConfiguration = null
+        VersionDetector $versionDetector = null
     ) {
         // @codeCoverageIgnoreStart
         if ($configuration === null) {
@@ -50,14 +52,14 @@ class TokenFetcher
             $httpClient = new GuzzleClient();
         }
 
-        if ($packageConfiguration === null) {
-            $packageConfiguration = require(dirname(__FILE__) . '/../../config.php');
+        if ($versionDetector === null) {
+            $versionDetector = new VersionDetector();
         }
         // @codeCoverageIgnoreEnd
 
         $this->configuration = $configuration;
         $this->httpClient = $httpClient;
-        $this->packageConfiguration = $packageConfiguration;
+        $this->versionDetector = $versionDetector;
     }
 
     /**
@@ -125,10 +127,16 @@ class TokenFetcher
      */
     private function getHeaders()
     {
-        $headers = self::HEADERS;
+        return array_merge(self::HEADERS, [
+            'User-Agent' => $this->getUserAgent(),
+        ]);
+    }
 
-        $headers['User-Agent'] = str_replace('{version}', $this->packageConfiguration['version'], $headers['User-Agent']);
-
-        return $headers;
+    /**
+     * @return mixed
+     */
+    private function getUserAgent()
+    {
+        return str_replace('{version}', $this->versionDetector->detect(), self::USER_AGENT_PATTERN);
     }
 }

@@ -31,6 +31,11 @@ class TokenFetcherTest extends TestCase
      */
     private $tokenFetcher;
 
+    /**
+     * @var VersionDetector
+     */
+    private $versionDetector;
+
     public function setUp()
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)
@@ -43,14 +48,19 @@ class TokenFetcherTest extends TestCase
             ->setMethods(['post'])
             ->getMock();
 
-        $packageConfiguration = [
-            'version' => self::SDK_VERSION,
-        ];
+        $this->versionDetector = $this->getMockBuilder(VersionDetector::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['detect'])
+            ->getMock();
+
+        $this->versionDetector
+            ->method('detect')
+            ->willReturn(self::SDK_VERSION);
 
         $this->tokenFetcher = new TokenFetcher(
             $this->configuration,
             $this->httpClient,
-            $packageConfiguration
+            $this->versionDetector
         );
     }
 
