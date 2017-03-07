@@ -1,10 +1,12 @@
 <?php
 
-namespace Autodesk\Core;
+namespace AutodeskForge;
 
-use Autodesk\Core\Auth\TokenFetcher;
-use Autodesk\Core\Exception\LogicException;
-use Autodesk\Core\Exception\RuntimeException;
+use AutodeskForge\Auth\TokenFetcher;
+use AutodeskForge\Core\Configuration;
+use AutodeskForge\Core\Exception\LogicException;
+use AutodeskForge\Core\Exception\RuntimeException;
+use AutodeskForge\Core\VersionDetector;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;

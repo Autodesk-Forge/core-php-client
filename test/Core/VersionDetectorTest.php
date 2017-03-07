@@ -1,7 +1,9 @@
 <?php
 
-namespace Autodesk\Core;
+namespace AutodeskForge;
 
+use AutodeskForge\Core\ComposerJsonFetcher;
+use AutodeskForge\Core\VersionDetector;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 

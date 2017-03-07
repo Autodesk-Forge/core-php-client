@@ -28,7 +28,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Autodesk\\Core\\": "lib/"
+            "AutodeskForge\\Auth\\": "lib/Auth",
+            "AutodeskForge\\Core\\": "lib/Core"
         }
     },
     "autoload-dev": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Autodesk\Core\Auth;
+namespace AutodeskForge\Auth;
 
 class ScopeValidator
 {

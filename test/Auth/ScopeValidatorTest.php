@@ -1,8 +1,8 @@
 <?php
 
-namespace Autodesk\Core;
+namespace AutodeskForge;
 
-use Autodesk\Core\Auth\ScopeValidator;
+use AutodeskForge\Auth\ScopeValidator;
 use PHPUnit\Framework\TestCase;
 
 class ScopeValidatorTest extends TestCase

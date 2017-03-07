@@ -1,10 +1,10 @@
 <?php
 
-namespace Autodesk\Core;
+namespace AutodeskForge\Core;
 
 /**
  * Class ComposerJsonFetcher
- * @package Autodesk\Core
+ * @package AutodeskForge\Core
  *
  * @codeCoverageIgnore
  */

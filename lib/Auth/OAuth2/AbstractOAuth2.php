@@ -1,12 +1,12 @@
 <?php
 
-namespace Autodesk\Core\Auth\OAuth2;
+namespace AutodeskForge\Auth\OAuth2;
 
-use Autodesk\Core\Auth\ScopeValidator;
-use Autodesk\Core\Auth\TokenFetcher;
-use Autodesk\Core\Exception\InvalidScopeException;
-use Autodesk\Core\Exception\LogicException;
-use Autodesk\Core\Exception\RuntimeException;
+use AutodeskForge\Auth\ScopeValidator;
+use AutodeskForge\Auth\TokenFetcher;
+use AutodeskForge\Core\Exception\InvalidScopeException;
+use AutodeskForge\Core\Exception\LogicException;
+use AutodeskForge\Core\Exception\RuntimeException;
 
 abstract class AbstractOAuth2
 {

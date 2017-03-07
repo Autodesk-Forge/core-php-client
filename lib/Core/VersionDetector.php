@@ -1,6 +1,6 @@
 <?php
 
-namespace Autodesk\Core;
+namespace AutodeskForge\Core;
 
 class VersionDetector
 {

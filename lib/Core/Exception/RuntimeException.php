@@ -1,6 +1,6 @@
 <?php
 
-namespace Autodesk\Core\Exception;
+namespace AutodeskForge\Core\Exception;
 
 class RuntimeException extends AutodeskException
 {

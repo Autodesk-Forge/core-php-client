@@ -51,11 +51,11 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-Autodesk\Core\Configuration::getDefaultConfiguration()
+AutodeskForge\Core\Configuration::getDefaultConfiguration()
     ->setClientId('XXXXXX')
     ->setClientSecret('XXXXXX');
 
-$twoLeggedAuth = new Autodesk\Core\Auth\OAuth2\TwoLeggedAuth();
+$twoLeggedAuth = new AutodeskForge\Auth\OAuth2\TwoLeggedAuth();
 $twoLeggedAuth->setScopes(['bucket:read']);
 
 /**
@@ -88,12 +88,12 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 session_start();
 
-Autodesk\Core\Configuration::getDefaultConfiguration()
+AutodeskForge\Core\Configuration::getDefaultConfiguration()
     ->setClientId('XXXXXX')
     ->setClientSecret('XXXXXX')
     ->setRedirectUrl("http://{$_SERVER['HTTP_HOST']}/callback.php");
 
-$threeLeggedAuth = new Autodesk\Core\Auth\OAuth2\ThreeLeggedAuth();
+$threeLeggedAuth = new AutodeskForge\Auth\OAuth2\ThreeLeggedAuth();
 $threeLeggedAuth->addScope('code:all');
 
 if (isset($_SESSION['isAuthenticated']) && $_SESSION['expiry'] > time()) {
@@ -129,12 +129,12 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 session_start();
 
-Autodesk\Core\Configuration::getDefaultConfiguration()
+AutodeskForge\Core\Configuration::getDefaultConfiguration()
     ->setClientId('XXXXXX')
     ->setClientSecret('XXXXXX')
     ->setRedirectUrl("http://{$_SERVER['HTTP_HOST']}/callback.php");
 
-$threeLeggedAuth = new Autodesk\Core\Auth\OAuth2\ThreeLeggedAuth();
+$threeLeggedAuth = new AutodeskForge\Auth\OAuth2\ThreeLeggedAuth();
 $threeLeggedAuth->addScopes(['data:read']);
 
 if (isset($_GET['code']) && $_GET['code']) {
