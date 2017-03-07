@@ -2,7 +2,6 @@
 
 namespace Autodesk\Core;
 
-use Autodesk\Core\Exception\WrongEnvironmentException;
 use PHPUnit\Framework\TestCase;
 
 class ConfigurationTest extends TestCase
@@ -54,33 +53,11 @@ class ConfigurationTest extends TestCase
         $this->assertEquals($redirectUrl, $this->configuration->getRedirectUrl());
     }
 
-    public function test_that_setting_wrong_environment_throws_exception()
+    public function test_url()
     {
-        $this->expectException(WrongEnvironmentException::class);
+        $this->assertEquals('https://developer.api.autodesk.com', $this->configuration->getHost());
 
-        $this->configuration->setEnvironment('wrong environment');
-    }
-
-    /**
-     * @dataProvider provide_environments
-     *
-     * @param $environment
-     * @param $host
-     */
-    public function test_set_environment($environment, $host)
-    {
-        $this->configuration->setEnvironment($environment);
-
-        $this->assertEquals($environment, $this->configuration->getEnvironment());
-        $this->assertEquals($host, $this->configuration->getHost());
-    }
-
-    public function provide_environments()
-    {
-        return [
-            ['dev', 'https://developer-dev.api.autodesk.com'],
-            ['stg', 'https://developer-stg.api.autodesk.com'],
-            ['prod', 'https://developer.api.autodesk.com'],
-        ];
+        $this->configuration->setHost('http://test.com');
+        $this->assertEquals('http://test.com', $this->configuration->getHost());
     }
 }

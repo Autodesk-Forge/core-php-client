@@ -12,7 +12,7 @@ To install the bindings via [Composer](http://getcomposer.org/), add the followi
   "repositories": [
     {
       "type": "git",
-      "url": "https://git.autodesk.com/Forge-SDKs/php-core-sdk.git"
+      "url": "https://github.com/Autodesk-Forge/php-core-sdk.git"
     }
   ],
   "require": {

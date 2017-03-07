@@ -2,20 +2,8 @@
 
 namespace Autodesk\Core;
 
-use Autodesk\Core\Exception\LogicException;
-use Autodesk\Core\Exception\WrongEnvironmentException;
-
 class Configuration
 {
-    /**
-     * Environments list
-     */
-    const ENVIRONMENT_HOSTS = [
-        'dev'  => 'https://developer-dev.api.autodesk.com',
-        'stg'  => 'https://developer-stg.api.autodesk.com',
-        'prod' => 'https://developer.api.autodesk.com',
-    ];
-
     /**
      * @var Configuration|null
      */
@@ -39,7 +27,7 @@ class Configuration
     /**
      * @var string
      */
-    protected $environment = 'prod';
+    protected $host = 'https://developer.api.autodesk.com';
 
     /**
      * Gets the default configuration instance
@@ -129,32 +117,16 @@ class Configuration
     /**
      * @return string
      */
-    public function getEnvironment()
-    {
-        return $this->environment;
-    }
-
-    /**
-     * @param string $environment
-     * @return Configuration
-     * @throws LogicException
-     */
-    public function setEnvironment($environment)
-    {
-        if ( ! array_key_exists($environment, self::ENVIRONMENT_HOSTS)) {
-            throw new WrongEnvironmentException($environment);
-        }
-
-        $this->environment = $environment;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getHost()
     {
-        return self::ENVIRONMENT_HOSTS[$this->environment];
+        return $this->host;
+    }
+
+    /**
+     * @param string $host
+     */
+    public function setHost($host)
+    {
+        $this->host = $host;
     }
 }
