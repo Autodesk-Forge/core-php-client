@@ -5,23 +5,10 @@ PHP 5.4.0 and later
 ## Installation & Usage
 ### Composer
 
-To install the bindings via [Composer](http://getcomposer.org/), add the following to `composer.json`:
-
+To install the bindings via [Composer](http://getcomposer.org/) run:
 ```
-{
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/Autodesk-Forge/php-core-sdk.git"
-    }
-  ],
-  "require": {
-    "autodesk-forge/core": "*@dev"
-  }
-}
+composer require autodesk-forge/core
 ```
-
-Then run `composer install`
 
 ### Manual Installation
 
