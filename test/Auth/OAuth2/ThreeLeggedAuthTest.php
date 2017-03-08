@@ -116,7 +116,7 @@ class ThreeLeggedAuthTest extends TestCase
 
         $this->assertEquals($refreshToken, $this->auth->getRefreshToken());
         $this->assertEquals($accessToken, $this->auth->getAccessToken());
-        $this->assertEquals($expiry, $this->auth->getExpiry());
+        $this->assertEquals($expiry, $this->auth->getExpiresIn());
     }
 
     public function test_refresh_token()
@@ -139,7 +139,7 @@ class ThreeLeggedAuthTest extends TestCase
 
         $this->assertEquals($refreshToken, $this->auth->getRefreshToken());
         $this->assertEquals($accessToken, $this->auth->getAccessToken());
-        $this->assertEquals($expiry, $this->auth->getExpiry());
+        $this->assertEquals($expiry, $this->auth->getExpiresIn());
 
     }
 

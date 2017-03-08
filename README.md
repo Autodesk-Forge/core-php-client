@@ -72,7 +72,7 @@ if (isset($cache['applicationToken']) && $cache['expiry'] > time()) {
     $twoLeggedAuth->fetchToken();
 
     $cache['applicationToken'] = $twoLeggedAuth->getAccessToken();
-    $cache['expiry'] = time() + $twoLeggedAuth->getExpiry();
+    $cache['expiry'] = time() + $twoLeggedAuth->getExpiresIn();
 }
 
 ```
@@ -107,7 +107,7 @@ if (isset($_SESSION['isAuthenticated']) && $_SESSION['expiry'] > time()) {
         $_SESSION['isAuthenticated'] = true;
         $_SESSION['accessToken'] = $threeLeggedAuth->getAccessToken();
         $_SESSION['refreshToken'] = $threeLeggedAuth->getRefreshToken();
-        $_SESSION['expiry'] = time() + $threeLeggedAuth->getExpiry();
+        $_SESSION['expiry'] = time() + $threeLeggedAuth->getExpiresIn();
 
         print_r('Token was refreshed');
     } else {
@@ -143,7 +143,7 @@ if (isset($_GET['code']) && $_GET['code']) {
     $_SESSION['isAuthenticated'] = true;
     $_SESSION['accessToken'] = $threeLeggedAuth->getAccessToken();
     $_SESSION['refreshToken'] = $threeLeggedAuth->getRefreshToken();
-    $_SESSION['expiry'] = time() + $threeLeggedAuth->getExpiry();
+    $_SESSION['expiry'] = time() + $threeLeggedAuth->getExpiresIn();
 
     $url = 'http://' . $_SERVER['HTTP_HOST'] . '/';
     header('Location: ' . filter_var($url, FILTER_SANITIZE_URL));

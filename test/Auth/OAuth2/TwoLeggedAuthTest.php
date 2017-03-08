@@ -57,7 +57,7 @@ class TwoLeggedAuthTest extends TestCase
         $this->auth->fetchToken();
 
         $this->assertEquals($accessToken, $this->auth->getAccessToken());
-        $this->assertEquals($expiry, $this->auth->getExpiry());
+        $this->assertEquals($expiry, $this->auth->getExpiresIn());
     }
 
     public function test_exception_is_thrown_when_access_token_is_not_returned_from_fetcher()

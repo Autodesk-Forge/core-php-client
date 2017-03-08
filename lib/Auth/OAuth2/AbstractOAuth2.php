@@ -28,7 +28,7 @@ abstract class AbstractOAuth2
     /**
      * @var int
      */
-    private $expiry;
+    private $expiresIn;
 
     /**
      * @var array
@@ -74,9 +74,9 @@ abstract class AbstractOAuth2
     /**
      * @return int
      */
-    public function getExpiry()
+    public function getExpiresIn()
     {
-        return $this->expiry;
+        return $this->expiresIn;
     }
 
     /**
@@ -151,7 +151,7 @@ abstract class AbstractOAuth2
         }
 
         $this->token = $response['access_token'];
-        $this->expiry = $response['expires_in'];
+        $this->expiresIn = $response['expires_in'];
 
         return $response;
     }
