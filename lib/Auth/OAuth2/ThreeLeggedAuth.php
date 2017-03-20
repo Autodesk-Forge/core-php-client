@@ -4,7 +4,7 @@ namespace AutodeskForge\Auth\OAuth2;
 
 use AutodeskForge\Auth\ScopeValidator;
 use AutodeskForge\Auth\TokenFetcher;
-use AutodeskForge\Core\Configuration;
+use AutodeskForge\Auth\Configuration;
 use AutodeskForge\Core\Exception\RuntimeException;
 
 class ThreeLeggedAuth extends AbstractOAuth2

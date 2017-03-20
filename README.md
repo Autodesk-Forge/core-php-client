@@ -1,3 +1,5 @@
+# Core Component (internal)
+
 ## Requirements
 
 PHP 5.4.0 and later
@@ -38,7 +40,7 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-AutodeskForge\Core\Configuration::getDefaultConfiguration()
+AutodeskForge\Auth\Configuration::getDefaultConfiguration()
     ->setClientId('XXXXXX')
     ->setClientSecret('XXXXXX');
 
@@ -75,7 +77,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 session_start();
 
-AutodeskForge\Core\Configuration::getDefaultConfiguration()
+AutodeskForge\Auth\Configuration::getDefaultConfiguration()
     ->setClientId('XXXXXX')
     ->setClientSecret('XXXXXX')
     ->setRedirectUrl("http://{$_SERVER['HTTP_HOST']}/callback.php");
@@ -116,7 +118,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 session_start();
 
-AutodeskForge\Core\Configuration::getDefaultConfiguration()
+AutodeskForge\Auth\Configuration::getDefaultConfiguration()
     ->setClientId('XXXXXX')
     ->setClientSecret('XXXXXX')
     ->setRedirectUrl("http://{$_SERVER['HTTP_HOST']}/callback.php");

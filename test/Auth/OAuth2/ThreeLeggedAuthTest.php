@@ -5,7 +5,7 @@ namespace AutodeskForge;
 use AutodeskForge\Auth\OAuth2\ThreeLeggedAuth;
 use AutodeskForge\Auth\ScopeValidator;
 use AutodeskForge\Auth\TokenFetcher;
-use AutodeskForge\Core\Configuration;
+use AutodeskForge\Auth\Configuration;
 use AutodeskForge\Core\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
