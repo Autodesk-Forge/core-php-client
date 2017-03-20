@@ -3,7 +3,7 @@
 namespace AutodeskForge;
 
 use AutodeskForge\Auth\TokenFetcher;
-use AutodeskForge\Core\Configuration;
+use AutodeskForge\Auth\Configuration;
 use AutodeskForge\Core\Exception\LogicException;
 use AutodeskForge\Core\Exception\RuntimeException;
 use AutodeskForge\Core\VersionDetector;

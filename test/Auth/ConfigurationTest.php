@@ -2,7 +2,7 @@
 
 namespace AutodeskForge;
 
-use AutodeskForge\Core\Configuration;
+use AutodeskForge\Auth\Configuration;
 use PHPUnit\Framework\TestCase;
 
 class ConfigurationTest extends TestCase
