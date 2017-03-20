@@ -2,9 +2,9 @@
 
 namespace AutodeskForge\Auth;
 
-use AutodeskForge\Auth\Configuration;
 use AutodeskForge\Core\Exception\LogicException;
 use AutodeskForge\Core\Exception\RuntimeException;
+use AutodeskForge\Core\HeadersProvider;
 use AutodeskForge\Core\VersionDetector;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
@@ -28,20 +28,20 @@ class TokenFetcher
     private $httpClient;
 
     /**
-     * @var VersionDetector
+     * @var HeadersProvider
      */
-    private $versionDetector;
+    private $headersProvider;
 
     /**
      * TokenFetcher constructor.
      * @param Configuration|null $configuration
      * @param GuzzleClient|null $httpClient
-     * @param VersionDetector|null $versionDetector
+     * @param HeadersProvider|null $headersProvider
      */
     public function __construct(
         Configuration $configuration = null,
         GuzzleClient $httpClient = null,
-        VersionDetector $versionDetector = null
+        HeadersProvider $headersProvider = null
     ) {
         // @codeCoverageIgnoreStart
         if ($configuration === null) {
@@ -52,14 +52,17 @@ class TokenFetcher
             $httpClient = new GuzzleClient();
         }
 
-        if ($versionDetector === null) {
+        if ($headersProvider === null) {
+            // Use the CORE version detector
             $versionDetector = new VersionDetector();
+
+            $headersProvider = new HeadersProvider($versionDetector->detect());
         }
         // @codeCoverageIgnoreEnd
 
         $this->configuration = $configuration;
         $this->httpClient = $httpClient;
-        $this->versionDetector = $versionDetector;
+        $this->headersProvider = $headersProvider;
     }
 
     /**
@@ -110,7 +113,7 @@ class TokenFetcher
     {
         try {
             $response = $this->httpClient->post($url, [
-                'headers'     => $this->getHeaders(),
+                'headers'     => $this->headersProvider->getHeaders(),
                 'form_params' => $body,
             ]);
         } catch (ClientException $e) {
@@ -120,23 +123,5 @@ class TokenFetcher
         }
 
         return (string)$response->getBody();
-    }
-
-    /**
-     * @return array
-     */
-    private function getHeaders()
-    {
-        return array_merge(self::HEADERS, [
-            'User-Agent' => $this->getUserAgent(),
-        ]);
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getUserAgent()
-    {
-        return str_replace('{version}', $this->versionDetector->detect(), self::USER_AGENT_PATTERN);
     }
 }
