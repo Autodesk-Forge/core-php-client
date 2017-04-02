@@ -1,8 +1,8 @@
 <?php
 
-namespace AutodeskForge;
+namespace Autodesk;
 
-use AutodeskForge\Core\UserAgentGenerator;
+use Autodesk\Core\UserAgentGenerator;
 use PHPUnit\Framework\TestCase;
 
 class UserAgentGeneratorTest extends TestCase

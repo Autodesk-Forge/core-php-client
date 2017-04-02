@@ -1,6 +1,6 @@
 <?php
 
-namespace AutodeskForge\Core;
+namespace Autodesk\Core;
 
 class HeadersProvider
 {

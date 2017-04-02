@@ -1,9 +1,9 @@
 <?php
 
-namespace AutodeskForge;
+namespace Autodesk;
 
-use AutodeskForge\Core\HeadersProvider;
-use AutodeskForge\Core\UserAgentGenerator;
+use Autodesk\Core\HeadersProvider;
+use Autodesk\Core\UserAgentGenerator;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 

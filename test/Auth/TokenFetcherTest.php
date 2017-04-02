@@ -6,7 +6,7 @@ use Autodesk\Auth\TokenFetcher;
 use Autodesk\Auth\Configuration;
 use Autodesk\Core\Exception\LogicException;
 use Autodesk\Core\Exception\RuntimeException;
-use Autodesk\Core\VersionDetector;
+use Autodesk\Core\HeadersProvider;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;

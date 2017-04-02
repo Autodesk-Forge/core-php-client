@@ -2,9 +2,9 @@
 
 namespace Autodesk\Auth;
 
-use Autodesk\Auth\Configuration;
 use Autodesk\Core\Exception\LogicException;
 use Autodesk\Core\Exception\RuntimeException;
+use Autodesk\Core\HeadersProvider;
 use Autodesk\Core\VersionDetector;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
