@@ -1,6 +1,6 @@
 <?php
 
-namespace Autodesk\Core;
+namespace Autodesk\Auth;
 
 class Configuration
 {
@@ -46,7 +46,7 @@ class Configuration
     }
 
     /**
-     * Sets the detault configuration instance
+     * Sets the default configuration instance
      *
      * @param Configuration $config An instance of the Configuration Object
      *

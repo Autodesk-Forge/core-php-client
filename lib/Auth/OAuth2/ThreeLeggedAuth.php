@@ -4,7 +4,7 @@ namespace Autodesk\Auth\OAuth2;
 
 use Autodesk\Auth\ScopeValidator;
 use Autodesk\Auth\TokenFetcher;
-use Autodesk\Core\Configuration;
+use Autodesk\Auth\Configuration;
 use Autodesk\Core\Exception\RuntimeException;
 
 class ThreeLeggedAuth extends AbstractOAuth2

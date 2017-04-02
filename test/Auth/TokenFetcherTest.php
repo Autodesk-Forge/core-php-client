@@ -3,7 +3,7 @@
 namespace Autodesk;
 
 use Autodesk\Auth\TokenFetcher;
-use Autodesk\Core\Configuration;
+use Autodesk\Auth\Configuration;
 use Autodesk\Core\Exception\LogicException;
 use Autodesk\Core\Exception\RuntimeException;
 use Autodesk\Core\VersionDetector;
@@ -16,7 +16,9 @@ use PHPUnit_Framework_MockObject_MockObject;
 
 class TokenFetcherTest extends TestCase
 {
-    const SDK_VERSION = '1.0';
+    const HEADERS = [
+        'Content-Type' => 'application/x-www-form-urlencoded',
+    ];
 
     /**
      * @var Configuration|PHPUnit_Framework_MockObject_MockObject
@@ -34,9 +36,9 @@ class TokenFetcherTest extends TestCase
     private $tokenFetcher;
 
     /**
-     * @var VersionDetector
+     * @var HeadersProvider
      */
-    private $versionDetector;
+    private $headersProvider;
 
     public function setUp()
     {
@@ -50,19 +52,19 @@ class TokenFetcherTest extends TestCase
             ->setMethods(['post'])
             ->getMock();
 
-        $this->versionDetector = $this->getMockBuilder(VersionDetector::class)
+        $this->headersProvider = $this->getMockBuilder(HeadersProvider::class)
             ->disableOriginalConstructor()
-            ->setMethods(['detect'])
+            ->setMethods(['getHeaders'])
             ->getMock();
 
-        $this->versionDetector
-            ->method('detect')
-            ->willReturn(self::SDK_VERSION);
+        $this->headersProvider
+            ->method('getHeaders')
+            ->willReturn(self::HEADERS);
 
         $this->tokenFetcher = new TokenFetcher(
             $this->configuration,
             $this->httpClient,
-            $this->versionDetector
+            $this->headersProvider
         );
     }
 
@@ -87,10 +89,7 @@ class TokenFetcherTest extends TestCase
         ];
 
         $options = [
-            'headers'     => [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'User-Agent'   => 'AutodeskForge/' . self::SDK_VERSION . '/php',
-            ],
+            'headers'     => self::HEADERS,
             'form_params' => [
                 'client_id'           => $this->configuration->getClientId(),
                 'client_secret'       => $this->configuration->getClientSecret(),

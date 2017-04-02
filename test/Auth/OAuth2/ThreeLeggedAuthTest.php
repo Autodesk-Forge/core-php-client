@@ -5,7 +5,7 @@ namespace Autodesk;
 use Autodesk\Auth\OAuth2\ThreeLeggedAuth;
 use Autodesk\Auth\ScopeValidator;
 use Autodesk\Auth\TokenFetcher;
-use Autodesk\Core\Configuration;
+use Autodesk\Auth\Configuration;
 use Autodesk\Core\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;

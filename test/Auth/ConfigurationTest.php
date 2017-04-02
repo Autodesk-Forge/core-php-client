@@ -2,7 +2,7 @@
 
 namespace Autodesk;
 
-use Autodesk\Core\Configuration;
+use Autodesk\Auth\Configuration;
 use PHPUnit\Framework\TestCase;
 
 class ConfigurationTest extends TestCase
