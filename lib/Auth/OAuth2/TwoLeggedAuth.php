@@ -1,8 +1,8 @@
 <?php
 
-namespace AutodeskForge\Auth\OAuth2;
+namespace Autodesk\Auth\OAuth2;
 
-use AutodeskForge\Core\Exception\RuntimeException;
+use Autodesk\Core\Exception\RuntimeException;
 
 class TwoLeggedAuth extends AbstractOAuth2
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace AutodeskForge\Auth\OAuth2;
+namespace Autodesk\Auth\OAuth2;
 
-use AutodeskForge\Auth\ScopeValidator;
-use AutodeskForge\Auth\TokenFetcher;
-use AutodeskForge\Core\Configuration;
-use AutodeskForge\Core\Exception\RuntimeException;
+use Autodesk\Auth\ScopeValidator;
+use Autodesk\Auth\TokenFetcher;
+use Autodesk\Core\Configuration;
+use Autodesk\Core\Exception\RuntimeException;
 
 class ThreeLeggedAuth extends AbstractOAuth2
 {

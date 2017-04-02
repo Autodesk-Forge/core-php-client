@@ -1,12 +1,12 @@
 <?php
 
-namespace AutodeskForge;
+namespace Autodesk;
 
-use AutodeskForge\Auth\OAuth2\ThreeLeggedAuth;
-use AutodeskForge\Auth\ScopeValidator;
-use AutodeskForge\Auth\TokenFetcher;
-use AutodeskForge\Core\Configuration;
-use AutodeskForge\Core\Exception\RuntimeException;
+use Autodesk\Auth\OAuth2\ThreeLeggedAuth;
+use Autodesk\Auth\ScopeValidator;
+use Autodesk\Auth\TokenFetcher;
+use Autodesk\Core\Configuration;
+use Autodesk\Core\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 

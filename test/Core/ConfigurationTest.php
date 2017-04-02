@@ -1,8 +1,8 @@
 <?php
 
-namespace AutodeskForge;
+namespace Autodesk;
 
-use AutodeskForge\Core\Configuration;
+use Autodesk\Core\Configuration;
 use PHPUnit\Framework\TestCase;
 
 class ConfigurationTest extends TestCase

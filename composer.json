@@ -1,5 +1,5 @@
 {
-    "name": "autodesk-forge/core",
+    "name": "autodesk/core",
     "version": "1.0",
     "description": "",
     "keywords": [
@@ -28,13 +28,13 @@
     },
     "autoload": {
         "psr-4": {
-            "AutodeskForge\\Auth\\": "lib/Auth",
-            "AutodeskForge\\Core\\": "lib/Core"
+            "Autodesk\\Auth\\": "lib/Auth",
+            "Autodesk\\Core\\": "lib/Core"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AutodeskForge\\Core\\": "test/"
+            "Autodesk\\Core\\": "test/"
         }
     }
 }

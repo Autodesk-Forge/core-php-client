@@ -1,11 +1,11 @@
 <?php
 
-namespace AutodeskForge;
+namespace Autodesk;
 
-use AutodeskForge\Auth\OAuth2\AbstractOAuth2;
-use AutodeskForge\Auth\ScopeValidator;
-use AutodeskForge\Auth\TokenFetcher;
-use AutodeskForge\Core\Exception\InvalidScopeException;
+use Autodesk\Auth\OAuth2\AbstractOAuth2;
+use Autodesk\Auth\ScopeValidator;
+use Autodesk\Auth\TokenFetcher;
+use Autodesk\Core\Exception\InvalidScopeException;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
