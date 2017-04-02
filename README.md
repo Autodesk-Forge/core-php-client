@@ -9,7 +9,7 @@ PHP 5.4.0 and later
 
 To install the bindings via [Composer](http://getcomposer.org/) run:
 ```
-composer require autodesk-forge/core
+composer require autodesk/core
 ```
 
 ### Manual Installation
