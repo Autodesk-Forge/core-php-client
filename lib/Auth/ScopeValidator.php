@@ -17,6 +17,7 @@ class ScopeValidator
         'account:read',
         'account:write',
         'user-profile:read',
+        'viewables:read',
     ];
 
     /**
