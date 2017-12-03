@@ -71,13 +71,10 @@ class TokenFetcher
      * @param array $scopes
      * @param array $additionalParams
      * @return array
-     * @throws LogicException
      * @throws RuntimeException
      */
     public function fetch($url, $grantType, array $scopes, array $additionalParams = [])
     {
-        $this->validateScopesNotEmpty($scopes);
-
         $formParams = array_merge([
             'client_id'     => $this->configuration->getClientId(),
             'client_secret' => $this->configuration->getClientSecret(),
@@ -90,17 +87,6 @@ class TokenFetcher
         $response = $this->makeRequest($url, $formParams);
 
         return json_decode($response, true);
-    }
-
-    /**
-     * @param array $scopes
-     * @throws LogicException
-     */
-    public function validateScopesNotEmpty(array $scopes)
-    {
-        if (count($scopes) === 0) {
-            throw new LogicException('Cannot fetch token when no scopes where defined');
-        }
     }
 
     /**
