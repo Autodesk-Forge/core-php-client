@@ -7,7 +7,7 @@
         "api"
     ],
     "homepage": "https://github.com/Autodesk-Forge/php-core-sdk",
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Autodesk-Forge",
