@@ -7,40 +7,34 @@ class HeadersProvider
     /**
      * @var string
      */
-    private $version;
+    private string $version;
 
     /**
      * @var string
      */
-    private $timestamp;
+    private string $timestamp;
 
     /**
      * @var UserAgentGenerator
      */
-    private $userAgentGenerator;
+    private UserAgentGenerator $userAgentGenerator;
 
     /**
      * HeaderProvider constructor.
-     * @param $version
-     * @param UserAgentGenerator $userAgentGenerator
+     * @param string $version
+     * @param UserAgentGenerator|null $userAgentGenerator
      */
-    public function __construct($version, UserAgentGenerator $userAgentGenerator = null)
+    public function __construct(string $version, UserAgentGenerator $userAgentGenerator = null)
     {
-        // @codeCoverageIgnoreStart
-        if ($userAgentGenerator === null) {
-            $userAgentGenerator = new UserAgentGenerator($version);
-        }
-        // @codeCoverageIgnoreEnd
-
         $this->version = $version;
+        $this->userAgentGenerator = $userAgentGenerator ?? new UserAgentGenerator($version);
         $this->timestamp = $this->getCurrentTimestamp();
-        $this->userAgentGenerator = $userAgentGenerator;
     }
 
     /**
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return [
             'x-ads-sdk'          => "php-core-sdk-{$this->version}",
@@ -50,9 +44,9 @@ class HeadersProvider
     }
 
     /**
-     * @return false|string
+     * @return string
      */
-    private function getCurrentTimestamp()
+    private function getCurrentTimestamp(): string
     {
         $currentTime = time();
         $formattedTimestamp = gmdate('Y-m-d\TH:i:s', $currentTime);

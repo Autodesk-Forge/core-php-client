@@ -33,7 +33,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Autodesk\\Core\\": "test/"
+            "Autodesk\\Core\\Test\\": "test/"
         }
     }
 }
