@@ -4,7 +4,7 @@ namespace Autodesk\Auth;
 
 class ScopeValidator
 {
-    const SCOPES = [
+    private const SCOPES = [
         'data:read',
         'data:write',
         'data:create',
@@ -23,7 +23,7 @@ class ScopeValidator
     /**
      * @var array
      */
-    private $scopes;
+    private array $scopes;
 
     /**
      * ScopeValidator constructor.
@@ -31,29 +31,23 @@ class ScopeValidator
      */
     public function __construct(array $scopes = null)
     {
-        // @codeCoverageIgnoreStart
-        if (is_null($scopes)) {
-            $scopes = self::SCOPES;
-        }
-        // @codeCoverageIgnoreEnd
-
-        $this->scopes = $scopes;
+        $this->scopes = $scopes ?? self::SCOPES;
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return bool
      */
-    public function isScopeValid($name)
+    public function isScopeValid(string $name): bool
     {
-        return in_array($name, $this->scopes);
+        return in_array($name, $this->scopes, true);
     }
 
     /**
      * @param $name
      * @return bool
      */
-    public function isScopeInvalid($name)
+    public function isScopeInvalid(string $name): bool
     {
         return ! $this->isScopeValid($name);
     }

@@ -7,40 +7,36 @@ class Configuration
     /**
      * @var Configuration|null
      */
-    private static $defaultConfiguration = null;
+    private static Configuration|null $defaultConfiguration = null;
+
+    /**
+     * @var string|null
+     */
+    protected string|null $clientId = null;
+
+    /**
+     * @var string|null
+     */
+    protected string|null $clientSecret = null;
 
     /**
      * @var string
      */
-    protected $clientId;
+    protected string $redirectUrl;
 
     /**
      * @var string
      */
-    protected $clientSecret;
-
-    /**
-     * @var string
-     */
-    protected $redirectUrl;
-
-    /**
-     * @var string
-     */
-    protected $host = 'https://developer.api.autodesk.com';
+    protected string $host = 'https://developer.api.autodesk.com';
 
     /**
      * Gets the default configuration instance
      *
      * @return Configuration
      */
-    public static function getDefaultConfiguration()
+    public static function getDefaultConfiguration(): Configuration
     {
-        // @codeCoverageIgnoreStart
-        if (self::$defaultConfiguration === null) {
-            self::$defaultConfiguration = new Configuration();
-        }
-        // @codeCoverageIgnoreEnd
+        self::$defaultConfiguration = self::$defaultConfiguration ?? new self;
 
         return self::$defaultConfiguration;
     }
@@ -52,15 +48,15 @@ class Configuration
      *
      * @return void
      */
-    public static function setDefaultConfiguration(Configuration $config)
+    public static function setDefaultConfiguration(Configuration $config): void
     {
         self::$defaultConfiguration = $config;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getClientId()
+    public function getClientId(): string|null
     {
         return $this->clientId;
     }
@@ -69,7 +65,7 @@ class Configuration
      * @param string $clientId
      * @return Configuration
      */
-    public function setClientId($clientId)
+    public function setClientId(string $clientId): self
     {
         $this->clientId = $clientId;
 
@@ -77,9 +73,9 @@ class Configuration
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getClientSecret()
+    public function getClientSecret(): string|null
     {
         return $this->clientSecret;
     }
@@ -88,7 +84,7 @@ class Configuration
      * @param string $clientSecret
      * @return Configuration
      */
-    public function setClientSecret($clientSecret)
+    public function setClientSecret(string $clientSecret): self
     {
         $this->clientSecret = $clientSecret;
 
@@ -98,7 +94,7 @@ class Configuration
     /**
      * @return string
      */
-    public function getRedirectUrl()
+    public function getRedirectUrl(): string
     {
         return $this->redirectUrl;
     }
@@ -107,7 +103,7 @@ class Configuration
      * @param string $redirectUrl
      * @return Configuration
      */
-    public function setRedirectUrl($redirectUrl)
+    public function setRedirectUrl(string $redirectUrl): self
     {
         $this->redirectUrl = $redirectUrl;
 
@@ -117,7 +113,7 @@ class Configuration
     /**
      * @return string
      */
-    public function getHost()
+    public function getHost(): string
     {
         return $this->host;
     }
@@ -125,7 +121,7 @@ class Configuration
     /**
      * @param string $host
      */
-    public function setHost($host)
+    public function setHost(string $host): void
     {
         $this->host = $host;
     }

@@ -13,60 +13,50 @@ abstract class AbstractOAuth2
     /**
      * @var TokenFetcher
      */
-    private $tokenFetcher;
+    private TokenFetcher $tokenFetcher;
 
     /**
      * @var ScopeValidator
      */
-    private $scopeValidator;
+    private ScopeValidator $scopeValidator;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private $token;
+    private string|null $token = null;
 
     /**
      * @var int
      */
-    private $expiresIn;
+    private int $expiresIn;
 
     /**
      * @var array
      */
-    private $scopes = [];
+    private array $scopes = [];
 
     /**
-     * @param TokenFetcher $tokenFetcher
-     * @param ScopeValidator $scopeValidator
+     * @param TokenFetcher|null $tokenFetcher
+     * @param ScopeValidator|null $scopeValidator
      */
     public function __construct(TokenFetcher $tokenFetcher = null, ScopeValidator $scopeValidator = null)
     {
-        // @codeCoverageIgnoreStart
-        if ($tokenFetcher === null) {
-            $tokenFetcher = new TokenFetcher();
-        }
-
-        if ($scopeValidator === null) {
-            $scopeValidator = new ScopeValidator();
-        }
-        // @codeCoverageIgnoreEnd
-
-        $this->tokenFetcher = $tokenFetcher;
-        $this->scopeValidator = $scopeValidator;
+        $this->tokenFetcher = $tokenFetcher ?? new TokenFetcher;
+        $this->scopeValidator = $scopeValidator ?? new ScopeValidator;
     }
 
     /**
      * @return string
      */
-    public function getAccessToken()
+    public function getAccessToken(): string
     {
         return $this->token;
     }
 
     /**
-     * @param $token
+     * @param string|null $token
      */
-    public function setAccessToken($token)
+    public function setAccessToken(string|null $token): void
     {
         $this->token = $token;
     }
@@ -74,7 +64,7 @@ abstract class AbstractOAuth2
     /**
      * @return int
      */
-    public function getExpiresIn()
+    public function getExpiresIn(): int
     {
         return $this->expiresIn;
     }
@@ -82,7 +72,7 @@ abstract class AbstractOAuth2
     /**
      * @return bool
      */
-    public function hasAccessToken()
+    public function hasAccessToken(): bool
     {
         return $this->token !== null;
     }
@@ -91,7 +81,7 @@ abstract class AbstractOAuth2
      * @param $name
      * @throws LogicException
      */
-    public function addScope($name)
+    public function addScope($name): void
     {
         if ($this->isScopeAlreadyExists($name)) {
             return;
@@ -107,7 +97,7 @@ abstract class AbstractOAuth2
     /**
      * @param array $scopes
      */
-    public function addScopes(array $scopes)
+    public function addScopes(array $scopes): void
     {
         foreach ($scopes as $scope) {
             $this->addScope($scope);
@@ -117,7 +107,7 @@ abstract class AbstractOAuth2
     /**
      * @param array $scopes
      */
-    public function setScopes(array $scopes)
+    public function setScopes(array $scopes): void
     {
         $this->scopes = [];
         $this->addScopes($scopes);
@@ -126,19 +116,19 @@ abstract class AbstractOAuth2
     /**
      * @return array
      */
-    public function getScopes()
+    public function getScopes(): array
     {
         return $this->scopes;
     }
 
     /**
-     * @param $url
-     * @param $grantType
+     * @param string $url
+     * @param string $grantType
      * @param array $additionalParams
      * @return array
      * @throws RuntimeException
      */
-    protected function fetchAccessToken($url, $grantType, array $additionalParams = [])
+    protected function fetchAccessToken(string $url, string $grantType, array $additionalParams = []): array
     {
         $response = $this->tokenFetcher->fetch($url, $grantType, $this->scopes, $additionalParams);
 
@@ -157,11 +147,11 @@ abstract class AbstractOAuth2
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return bool
      */
-    private function isScopeAlreadyExists($name)
+    private function isScopeAlreadyExists(string $name): bool
     {
-        return in_array($name, $this->scopes);
+        return in_array($name, $this->scopes, true);
     }
 }

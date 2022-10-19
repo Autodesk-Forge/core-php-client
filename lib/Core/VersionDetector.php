@@ -5,48 +5,38 @@ namespace Autodesk\Core;
 class VersionDetector
 {
     /**
-     * @var string
+     * @var string|null
      */
-    private $version;
+    private string|null $version = null;
 
     /**
      * @var ComposerJsonFetcher
      */
-    private $composerJsonFetcher;
+    private ComposerJsonFetcher $composerJsonFetcher;
 
     /**
      * VersionDetector constructor.
-     * @param ComposerJsonFetcher $composerJsonFetcher
+     * @param ComposerJsonFetcher|null $composerJsonFetcher
      */
     public function __construct(ComposerJsonFetcher $composerJsonFetcher = null)
     {
-        // @codeCoverageIgnoreStart
-        if ($composerJsonFetcher === null) {
-            $composerJsonFetcher = new ComposerJsonFetcher();
-        }
-        // @codeCoverageIgnoreEnd
-
-        $this->composerJsonFetcher = $composerJsonFetcher;
+        $this->composerJsonFetcher = $composerJsonFetcher ?? new ComposerJsonFetcher();
     }
 
     /**
      * @return mixed
      */
-    public function detect()
+    public function detect(): string
     {
-        if ( ! is_null($this->version)) {
-            return $this->version;
-        }
-
-        $this->version = $this->findVersion();
+        $this->version = $this->version ?? $this->findVersion();
 
         return $this->version;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    private function findVersion()
+    private function findVersion(): string
     {
         $data = $this->composerJsonFetcher->fetch();
 

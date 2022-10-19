@@ -1,10 +1,12 @@
 # CODE EDITORS
 .idea
+.vscode
 
 # COMPOSER
 vendor/
 
 # OS FILES
+composer.lock
 .DS_Store
 Desktop.ini
 ._*

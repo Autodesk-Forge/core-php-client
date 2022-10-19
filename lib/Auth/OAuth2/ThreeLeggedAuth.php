@@ -12,12 +12,12 @@ class ThreeLeggedAuth extends AbstractOAuth2
     /**
      * @var string
      */
-    private $refreshToken;
+    private string $refreshToken;
 
     /**
      * @var Configuration
      */
-    private $configuration;
+    private Configuration $configuration;
 
     /**
      * OAuth2ThreeLegged constructor.
@@ -30,11 +30,7 @@ class ThreeLeggedAuth extends AbstractOAuth2
         TokenFetcher $tokenFetcher = null,
         ScopeValidator $scopeValidator = null
     ) {
-        // @codeCoverageIgnoreStart
-        if ($configuration === null) {
-            $configuration = Configuration::getDefaultConfiguration();
-        }
-        // @codeCoverageIgnoreEnd
+        $configuration = $configuration ?? Configuration::getDefaultConfiguration();
 
         $this->configuration = $configuration;
 
@@ -44,7 +40,7 @@ class ThreeLeggedAuth extends AbstractOAuth2
     /**
      * @return string
      */
-    public function createAuthUrl()
+    public function createAuthUrl(): string
     {
         $host = $this->configuration->getHost();
         $parameters = http_build_query([
@@ -59,32 +55,32 @@ class ThreeLeggedAuth extends AbstractOAuth2
 
     /**
      * Returns application token
-     * @param $authorizationCode
+     * @param string $authorizationCode
      * @throws RuntimeException
      */
-    public function fetchToken($authorizationCode)
+    public function fetchToken(string $authorizationCode): void
     {
         $additionalParams = [
             'code' => $authorizationCode,
             'redirect_uri' => $this->configuration->getRedirectUrl(),
         ];
 
-        $response = parent::fetchAccessToken('authentication/v1/gettoken', 'authorization_code', $additionalParams);
+        $response = $this->fetchAccessToken('authentication/v1/gettoken', 'authorization_code', $additionalParams);
 
         $this->saveRefreshToken($response);
     }
 
     /**
-     * @param $refreshToken
+     * @param string $refreshToken
      * @throws RuntimeException
      */
-    public function refreshToken($refreshToken)
+    public function refreshToken(string $refreshToken): void
     {
         $additionalParams = [
             'refresh_token' => $refreshToken,
         ];
 
-        $response = parent::fetchAccessToken('authentication/v1/refreshtoken', 'refresh_token', $additionalParams);
+        $response = $this->fetchAccessToken('authentication/v1/refreshtoken', 'refresh_token', $additionalParams);
 
         $this->saveRefreshToken($response);
     }
@@ -92,16 +88,16 @@ class ThreeLeggedAuth extends AbstractOAuth2
     /**
      * @return string
      */
-    public function getRefreshToken()
+    public function getRefreshToken(): string
     {
         return $this->refreshToken;
     }
 
     /**
-     * @param $response
+     * @param array $response
      * @throws RuntimeException
      */
-    private function saveRefreshToken($response)
+    private function saveRefreshToken(array $response): void
     {
         if ( ! array_key_exists('refresh_token', $response)) {
             throw new RuntimeException('Refresh token was not found in the response');

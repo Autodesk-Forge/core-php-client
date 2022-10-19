@@ -1,6 +1,6 @@
 <?php
 
-namespace Autodesk;
+namespace Autodesk\Core\Test\Auth;
 
 use Autodesk\Core\UserAgentGenerator;
 use PHPUnit\Framework\TestCase;
@@ -13,20 +13,20 @@ class UserAgentGeneratorTest extends TestCase
     /**
      * @var UserAgentGenerator
      */
-    protected $generator;
+    protected UserAgentGenerator $generator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->generator = new UserAgentGenerator(self::SDK_VERSION);
     }
 
-    public function test_user_agent_exists()
+    public function test_user_agent_exists(): void
     {
         $this->assertNotEmpty($this->generator->generate());
     }
 
-    public function test_user_agent_format()
+    public function test_user_agent_format(): void
     {
-        $this->assertRegExp(self::USER_AGENT_PATTERN, $this->generator->generate());
+        $this->assertMatchesRegularExpression(self::USER_AGENT_PATTERN, $this->generator->generate());
     }
 }

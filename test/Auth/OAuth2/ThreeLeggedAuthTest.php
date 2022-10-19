@@ -1,6 +1,6 @@
 <?php
 
-namespace Autodesk;
+namespace Autodesk\Core\Test\Auth\OAuth2;
 
 use Autodesk\Auth\OAuth2\ThreeLeggedAuth;
 use Autodesk\Auth\ScopeValidator;
@@ -8,54 +8,53 @@ use Autodesk\Auth\TokenFetcher;
 use Autodesk\Auth\Configuration;
 use Autodesk\Core\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 
 class ThreeLeggedAuthTest extends TestCase
 {
     /**
-     * @var Configuration|PHPUnit_Framework_MockObject_MockObject
+     * @var Configuration
      */
-    private $configuration;
+    private Configuration $configuration;
 
     /**
-     * @var TokenFetcher|PHPUnit_Framework_MockObject_MockObject
+     * @var TokenFetcher
      */
-    private $tokenFetcher;
+    private TokenFetcher $tokenFetcher;
 
     /**
-     * @var ScopeValidator|PHPUnit_Framework_MockObject_MockObject
+     * @var ScopeValidator
      */
-    private $scopeValidator;
+    private ScopeValidator $scopeValidator;
 
     /**
      * @var ThreeLeggedAuth
      */
-    private $auth;
+    private ThreeLeggedAuth $auth;
 
     /**
      * Setup before running each test case
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getHost', 'getClientId', 'getRedirectUrl'])
+            ->onlyMethods(['getHost', 'getClientId', 'getRedirectUrl'])
             ->getMock();
 
         $this->scopeValidator = $this->getMockBuilder(ScopeValidator::class)
             ->disableOriginalConstructor()
-            ->setMethods(['isScopeInvalid'])
+            ->onlyMethods(['isScopeInvalid'])
             ->getMock();
 
         $this->tokenFetcher = $this->getMockBuilder(TokenFetcher::class)
             ->disableOriginalConstructor()
-            ->setMethods(['fetch'])
+            ->onlyMethods(['fetch'])
             ->getMock();
 
         $this->auth = new ThreeLeggedAuth($this->configuration, $this->tokenFetcher, $this->scopeValidator);
     }
 
-    public function test_create_auth_url()
+    public function test_create_auth_url(): void
     {
         $host = 'http://testhost.com';
         $clientId = 'XXXXXX';
@@ -88,7 +87,7 @@ class ThreeLeggedAuthTest extends TestCase
         $this->assertEquals($expectedUrl, $this->auth->createAuthUrl());
     }
 
-    public function test_fetch_token()
+    public function test_fetch_token(): void
     {
         $authorizationCode = 'someAuthCode';
         $redirectUri = 'http://host.com/callback.php';
@@ -119,7 +118,7 @@ class ThreeLeggedAuthTest extends TestCase
         $this->assertEquals($expiry, $this->auth->getExpiresIn());
     }
 
-    public function test_refresh_token()
+    public function test_refresh_token(): void
     {
         $refreshToken = 'YYYY';
         $accessToken = 'XXXX';
@@ -143,7 +142,7 @@ class ThreeLeggedAuthTest extends TestCase
 
     }
 
-    public function test_exception_is_thrown_when_access_token_is_not_returned_from_fetcher()
+    public function test_exception_is_thrown_when_access_token_is_not_returned_from_fetcher(): void
     {
         $this->tokenFetcher
             ->expects($this->once())
@@ -156,7 +155,7 @@ class ThreeLeggedAuthTest extends TestCase
         $this->auth->fetchToken('XXXX');
     }
 
-    public function test_exception_is_thrown_when_expiry_is_not_returned_from_fetcher()
+    public function test_exception_is_thrown_when_expiry_is_not_returned_from_fetcher(): void
     {
         $this->tokenFetcher
             ->expects($this->once())
@@ -169,7 +168,7 @@ class ThreeLeggedAuthTest extends TestCase
         $this->auth->fetchToken('XXXX');
     }
 
-    public function test_exception_is_thrown_when_refresh_token_is_not_returned_from_fetcher()
+    public function test_exception_is_thrown_when_refresh_token_is_not_returned_from_fetcher(): void
     {
         $this->tokenFetcher
             ->expects($this->once())

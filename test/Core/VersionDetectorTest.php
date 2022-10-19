@@ -1,34 +1,33 @@
 <?php
 
-namespace Autodesk;
+namespace Autodesk\Core\Test\Core;
 
 use Autodesk\Core\ComposerJsonFetcher;
 use Autodesk\Core\VersionDetector;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 
 class VersionDetectorTest extends TestCase
 {
     /**
-     * @var ComposerJsonFetcher|PHPUnit_Framework_MockObject_MockObject
+     * @var ComposerJsonFetcher
      */
-    private $composerJsonFetcher;
+    private ComposerJsonFetcher $composerJsonFetcher;
 
     /**
      * @var VersionDetector
      */
-    private $versionDetector;
+    private VersionDetector $versionDetector;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->composerJsonFetcher = $this->getMockBuilder(ComposerJsonFetcher::class)
-            ->setMethods(['fetch'])
+            ->onlyMethods(['fetch'])
             ->getMock();
 
         $this->versionDetector = new VersionDetector($this->composerJsonFetcher);
     }
 
-    public function test_version_is_detected_correctly()
+    public function test_version_is_detected_correctly(): void
     {
         $this->composerJsonFetcher
             ->method('fetch')
@@ -37,7 +36,7 @@ class VersionDetectorTest extends TestCase
         $this->assertEquals('2.0', $this->versionDetector->detect());
     }
 
-    public function test_version_is_not_fetched_twice()
+    public function test_version_is_not_fetched_twice(): void
     {
         $this->composerJsonFetcher
             ->expects($this->once())
@@ -50,7 +49,7 @@ class VersionDetectorTest extends TestCase
         $this->versionDetector->detect();
     }
 
-    public function test_fallback_when_version_is_not_in_composer_data()
+    public function test_fallback_when_version_is_not_in_composer_data(): void
     {
         $this->composerJsonFetcher
             ->method('fetch')

@@ -1,6 +1,6 @@
 <?php
 
-namespace Autodesk;
+namespace Autodesk\Core\Test\Auth;
 
 use Autodesk\Auth\TokenFetcher;
 use Autodesk\Auth\Configuration;
@@ -12,7 +12,6 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 
 class TokenFetcherTest extends TestCase
 {
@@ -21,40 +20,40 @@ class TokenFetcherTest extends TestCase
     ];
 
     /**
-     * @var Configuration|PHPUnit_Framework_MockObject_MockObject
+     * @var Configuration
      */
-    private $configuration;
+    private Configuration $configuration;
 
     /**
-     * @var GuzzleClient|PHPUnit_Framework_MockObject_MockObject
+     * @var GuzzleClient
      */
-    private $httpClient;
+    private GuzzleClient $httpClient;
 
     /**
      * @var TokenFetcher
      */
-    private $tokenFetcher;
+    private TokenFetcher $tokenFetcher;
 
     /**
      * @var HeadersProvider
      */
-    private $headersProvider;
+    private HeadersProvider $headersProvider;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getHost'])
+            ->onlyMethods(['getHost'])
             ->getMock();
 
         $this->httpClient = $this->getMockBuilder(GuzzleClient::class)
             ->disableOriginalConstructor()
-            ->setMethods(['post'])
+            ->onlyMethods(['post'])
             ->getMock();
 
         $this->headersProvider = $this->getMockBuilder(HeadersProvider::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getHeaders'])
+            ->onlyMethods(['getHeaders'])
             ->getMock();
 
         $this->headersProvider
@@ -68,15 +67,15 @@ class TokenFetcherTest extends TestCase
         );
     }
 
-    public function test_exception_is_thrown_when_no_scopes_defined()
+    public function test_exception_is_thrown_when_no_scopes_defined(): void
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Cannot fetch token when no scopes where defined');
 
-        $this->tokenFetcher->fetch('url', 'grantType', [], []);
+        $this->tokenFetcher->fetch('url', 'grantType', []);
     }
 
-    public function test_call_to_http_client()
+    public function test_call_to_http_client(): void
     {
         $path = 'somepage.php';
         $domain = 'www.test.com/';
@@ -117,7 +116,7 @@ class TokenFetcherTest extends TestCase
         $this->assertEquals($response, $result);
     }
 
-    public function test_error_response_handling()
+    public function test_error_response_handling(): void
     {
         $this->httpClient
             ->expects($this->once())
