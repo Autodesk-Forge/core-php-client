@@ -2,7 +2,7 @@
 
 ## Requirements
 
-PHP 5.4.0 and later
+PHP 8.0.0 and later
 
 ## Installation & Usage
 ### Composer
@@ -10,14 +10,6 @@ PHP 5.4.0 and later
 To install the bindings via [Composer](http://getcomposer.org/) run:
 ```
 composer require autodesk/core
-```
-
-### Manual Installation
-
-Download the files and include `autoload.php`:
-
-```php
-require_once('/path/to/AutodeskCore/autoload.php');
 ```
 
 ## Tests
