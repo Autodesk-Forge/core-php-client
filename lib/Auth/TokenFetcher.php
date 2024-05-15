@@ -75,16 +75,19 @@ class TokenFetcher
      */
     public function fetch($url, $grantType, array $scopes, array $additionalParams = [])
     {
-        $formParams = array_merge([
+        $authParams = array(
             'client_id'     => $this->configuration->getClientId(),
-            'client_secret' => $this->configuration->getClientSecret(),
+            'client_secret' => $this->configuration->getClientSecret()
+        );
+
+        $formParams = array_merge([
             'grant_type'    => $grantType,
             'scope'         => implode(' ', $scopes),
         ], $additionalParams);
 
         $url = "{$this->configuration->getHost()}/{$url}";
 
-        $response = $this->makeRequest($url, $formParams);
+        $response = $this->makeRequest($url, $authParams, $formParams);
 
         return json_decode($response, true);
     }
@@ -95,11 +98,11 @@ class TokenFetcher
      * @return string
      * @throws RuntimeException
      */
-    private function makeRequest($url, $body)
+    private function makeRequest($url, $auth, $body)
     {
         try {
             $response = $this->httpClient->post($url, [
-                'headers'     => $this->headersProvider->getHeaders(),
+                'headers'     => $this->headersProvider->getHeadersWithAuth($auth),
                 'form_params' => $body,
             ]);
         } catch (ClientException $e) {

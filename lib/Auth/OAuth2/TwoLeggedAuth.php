@@ -12,6 +12,6 @@ class TwoLeggedAuth extends AbstractOAuth2
      */
     public function fetchToken()
     {
-        parent::fetchAccessToken('authentication/v1/authenticate', 'client_credentials');
+        parent::fetchAccessToken('authentication/v2/token', 'client_credentials');
     }
 }

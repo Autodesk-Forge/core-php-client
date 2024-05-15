@@ -51,7 +51,7 @@ class TwoLeggedAuthTest extends TestCase
         $this->tokenFetcher
             ->expects($this->once())
             ->method('fetch')
-            ->with('authentication/v1/authenticate', 'client_credentials', [])
+            ->with('authentication/v2/token', 'client_credentials', [])
             ->willReturn(['access_token' => $accessToken, 'expires_in' => $expiry]);
 
         $this->auth->fetchToken();

@@ -49,6 +49,18 @@ class HeadersProvider
         ];
     }
 
+    public function getHeadersWithAuth($auth)
+    {
+        $base64Auth = base64_encode($auth["client_id"] . ":" . $auth["client_secret"]);
+
+        return [
+            'x-ads-sdk'          => "php-core-sdk-{$this->version}",
+            'x-ads-request-time' => $this->timestamp,
+            'User-Agent'         => $this->userAgentGenerator->generate(),
+            'Authorization'      => "Basic " . $base64Auth
+        ];
+    }
+
     /**
      * @return false|string
      */
