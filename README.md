@@ -1,3 +1,5 @@
+# UNSUPPORTED
+
 # Core Component (internal)
 
 ## Requirements
