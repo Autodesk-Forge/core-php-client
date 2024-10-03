@@ -1,51 +1,50 @@
 <?php
 
-namespace Autodesk;
+namespace Autodesk\Core\Test\Auth\OAuth2;
 
 use Autodesk\Auth\OAuth2\AbstractOAuth2;
 use Autodesk\Auth\ScopeValidator;
 use Autodesk\Auth\TokenFetcher;
 use Autodesk\Core\Exception\InvalidScopeException;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 
 class AbstractOAuth2Test extends TestCase
 {
     /**
      * @var AbstractOAuth2
      */
-    private $auth;
+    private AbstractOAuth2 $auth;
 
     /**
-     * @var TokenFetcher|PHPUnit_Framework_MockObject_MockObject
+     * @var TokenFetcher
      */
-    private $tokenFetcher;
+    private TokenFetcher $tokenFetcher;
 
     /**
-     * @var ScopeValidator|PHPUnit_Framework_MockObject_MockObject
+     * @var ScopeValidator
      */
-    private $scopeValidator;
+    private ScopeValidator $scopeValidator;
 
     /**
      * Setup before running each test case
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->tokenFetcher = $this->getMockBuilder(TokenFetcher::class)
             ->disableOriginalConstructor()
-            ->setMethods([])
+            ->addMethods([])
             ->getMock();
 
         $this->scopeValidator = $this->getMockBuilder(ScopeValidator::class)
             ->disableOriginalConstructor()
-            ->setMethods(['isScopeValid', 'isScopeInvalid'])
+            ->onlyMethods(['isScopeValid', 'isScopeInvalid'])
             ->getMock();
 
         $arguments = [$this->tokenFetcher, $this->scopeValidator];
         $this->auth = $this->getMockForAbstractClass(AbstractOAuth2::class, $arguments);
     }
 
-    public function test_set_scopes()
+    public function test_set_scopes(): void
     {
         $this->scopeValidator
             ->method('isScopeInvalid')
@@ -58,7 +57,7 @@ class AbstractOAuth2Test extends TestCase
         $this->assertEquals(['a'], $this->auth->getScopes());
     }
 
-    public function test_add_scope()
+    public function test_add_scope(): void
     {
         $this->scopeValidator
             ->method('isScopeInvalid')
@@ -73,7 +72,7 @@ class AbstractOAuth2Test extends TestCase
         $this->assertEquals(['a', 'b'], $this->auth->getScopes());
     }
 
-    public function test_add_scopes()
+    public function test_add_scopes(): void
     {
         $this->scopeValidator
             ->method('isScopeInvalid')
@@ -88,7 +87,7 @@ class AbstractOAuth2Test extends TestCase
         $this->assertEquals(['a', 'b', 'cc', 'c'], $this->auth->getScopes());
     }
 
-    public function test_add_scope_ignores_existing_scope()
+    public function test_add_scope_ignores_existing_scope(): void
     {
         $this->scopeValidator
             ->method('isScopeInvalid')
@@ -105,7 +104,7 @@ class AbstractOAuth2Test extends TestCase
         $this->assertEquals(['a', 'b'], $this->auth->getScopes());
     }
 
-    public function test_wrong_scope_throws_exception()
+    public function test_wrong_scope_throws_exception(): void
     {
         $this->scopeValidator
             ->method('isScopeInvalid')
@@ -116,7 +115,7 @@ class AbstractOAuth2Test extends TestCase
         $this->auth->addScope('a');
     }
 
-    public function test_has_token()
+    public function test_has_token(): void
     {
         $this->assertFalse($this->auth->hasAccessToken());
 

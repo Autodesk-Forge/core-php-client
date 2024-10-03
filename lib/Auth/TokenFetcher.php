@@ -20,17 +20,17 @@ class TokenFetcher
     /**
      * @var Configuration
      */
-    private $configuration;
+    private Configuration $configuration;
 
     /**
      * @var GuzzleClient
      */
-    private $httpClient;
+    private GuzzleClient $httpClient;
 
     /**
      * @var HeadersProvider
      */
-    private $headersProvider;
+    private HeadersProvider $headersProvider;
 
     /**
      * TokenFetcher constructor.
@@ -43,38 +43,26 @@ class TokenFetcher
         GuzzleClient $httpClient = null,
         HeadersProvider $headersProvider = null
     ) {
-        // @codeCoverageIgnoreStart
-        if ($configuration === null) {
-            $configuration = Configuration::getDefaultConfiguration();
-        }
-
-        if ($httpClient === null) {
-            $httpClient = new GuzzleClient();
-        }
-
-        if ($headersProvider === null) {
-            // Use the CORE version detector
-            $versionDetector = new VersionDetector();
-
-            $headersProvider = new HeadersProvider($versionDetector->detect());
-        }
-        // @codeCoverageIgnoreEnd
-
-        $this->configuration = $configuration;
-        $this->httpClient = $httpClient;
-        $this->headersProvider = $headersProvider;
+        $this->configuration = $configuration ?? Configuration::getDefaultConfiguration();
+        $this->httpClient = $httpClient ?? new GuzzleClient();
+        $this->headersProvider = $headersProvider ?? new HeadersProvider((new VersionDetector)->detect());
     }
 
     /**
-     * @param $url
-     * @param $grantType
+     * @param string $url
+     * @param string $grantType
      * @param array $scopes
      * @param array $additionalParams
      * @return array
-     * @throws RuntimeException
+     * @throws RuntimeException|LogicException
      */
-    public function fetch($url, $grantType, array $scopes, array $additionalParams = [])
+    public function fetch(string $url, string $grantType, array $scopes, array $additionalParams = []): array
     {
+        if(count($scopes) === 0)
+        {
+            throw new LogicException('Cannot fetch token when no scopes where defined');
+        }
+
         $formParams = array_merge([
             'client_id'     => $this->configuration->getClientId(),
             'client_secret' => $this->configuration->getClientSecret(),
@@ -90,12 +78,12 @@ class TokenFetcher
     }
 
     /**
-     * @param $url
-     * @param $body
+     * @param string $url
+     * @param array $body
      * @return string
      * @throws RuntimeException
      */
-    private function makeRequest($url, $body)
+    private function makeRequest(string $url, array $body): string
     {
         try {
             $response = $this->httpClient->post($url, [

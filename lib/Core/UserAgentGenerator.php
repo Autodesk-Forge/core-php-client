@@ -5,23 +5,17 @@ namespace Autodesk\Core;
 class UserAgentGenerator
 {
     /**
-     * @var string
-     */
-    private $sdkVersion;
-
-    /**
      * UserAgentGenerator constructor.
-     * @param $sdkVersion
+     * @param string $sdkVersion
      */
-    public function __construct($sdkVersion)
+    public function __construct(private string $sdkVersion)
     {
-        $this->sdkVersion = $sdkVersion;
     }
-    
+
     /**
      * @return string
      */
-    public function generate()
+    public function generate(): string
     {
         $osName = $this->getOsName();
         $osVersion = $this->getOsVersion();
@@ -34,15 +28,15 @@ class UserAgentGenerator
     /**
      * @return string
      */
-    private function getPhpVersion()
+    private function getPhpVersion(): string
     {
-        return phpversion();
+        return PHP_VERSION;
     }
 
     /**
      * @return string
      */
-    private function getOsName()
+    private function getOsName(): string
     {
         return php_uname('a');
     }
@@ -50,7 +44,7 @@ class UserAgentGenerator
     /**
      * @return string
      */
-    private function getOsVersion()
+    private function getOsVersion(): string
     {
         return php_uname('r');
     }
@@ -58,7 +52,7 @@ class UserAgentGenerator
     /**
      * @return string
      */
-    private function getEngineNameAndVersion()
+    private function getEngineNameAndVersion(): string
     {
         if (array_key_exists('SERVER_SOFTWARE', $_SERVER)
             && (preg_match('/(.*)\/(.*)/', $_SERVER['SERVER_SOFTWARE']) === 1)
